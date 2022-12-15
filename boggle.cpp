@@ -94,4 +94,44 @@ bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>
 {
 //add your solution here!
 
+
+
+	if(r >= board.size() || c >= board.size()){ //out of columns/rows to explore
+		if(dict.find(word) != dict.end()){ //word in dict
+			result.insert(word);
+			return true;
+		}
+		return false;	 //if out of rows/cols and word not in dictionary, return false
+	}
+
+	if(board.size() == 0){ //check if board empty, if so boggleHelper won't work
+		return false; //base check to run faster
+	}
+
+	if(word.size() == 0){ //if word currently has no letter recurse to add some
+		return boggleHelper(dict, prefix, board, word+board[r][c], result, r+dr, c+dc, dr,dc);
+	}
+	
+	if(prefix.find(word) == prefix.end() && dict.find(word) != dict.end()){ //if word is in dictionary and not prefix for another word, insert
+		result.insert(word);
+		return true;
+	}
+
+	if(boggleHelper(dict, prefix, board, word+board[r][c], result, r+dr, c+dc, dr,dc) == false){ //recurse and move onto other avail letter by updating inputs
+		if(dict.find(word) != dict.end()){
+			result.insert(word);
+			return true;
+		}
+	}else{ //boggle helper returned true in this case, so return true
+		return true;
+	}
+
+	// bool resurse = boggleHelper(dict, prefix, board, word+board[r][c], result, r+dr, c+dc, dr,dc);
+
+	// if(resurse){
+	// 	return true;
+	// }
+	//return false;
+
+	//thought initially we'd have a case that would need to recurse again, but worked without this code
 }
